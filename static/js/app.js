@@ -1,5 +1,12 @@
 const resource="https://2u-data-curriculum-team.s3.amazonaws.com/dataviz-classroom/v1.1/14-Interactive-Web-Visualizations/02-Homework/samples.json"
 
+// create menu option
+data.then(function(data) {
+    let menu = d3.select("#selDataset")
+    let names = data['names'];
+    names.forEach(function(id) {
+        menu.append('option').text(id).property("value", id)});
+    });
 
 function init(){
     d3.json(resource).then((data)=>{
@@ -13,14 +20,6 @@ function init(){
 }
 
 
-// create menu option
-data.then(function(data) {
-    let menu = d3.select("#selDataset")
-    let names = data['names'];
-    names.forEach(function(id) {
-        menu.append('option').text(id).property("value", id)});
-    let sample = names[0]
-    console.log(sample)});
    
 function utobar(sample_id){
     d3.json(resource).then((data)=>{
