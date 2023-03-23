@@ -1,13 +1,19 @@
+// Resource URL
 const resource="https://2u-data-curriculum-team.s3.amazonaws.com/dataviz-classroom/v1.1/14-Interactive-Web-Visualizations/02-Homework/samples.json"
 
+//menu section in html
+let menu = d3.select("#selDataset")
+
 // create menu option
-data.then(function(data) {
-    let menu = d3.select("#selDataset")
+d3.json(resource).then(function(data) {
+    
     let names = data['names'];
     names.forEach(function(id) {
         menu.append('option').text(id).property("value", id)});
     });
 
+
+//display initial view 
 function init(){
     d3.json(resource).then((data)=>{
     let names = data['names']
@@ -20,10 +26,11 @@ function init(){
 }
 
 
-   
+// function for creating bar chart
 function utobar(sample_id){
     d3.json(resource).then((data)=>{
         let samples = data['samples'];
+        // get the specific datas and update the plot when a new sample is selected 
         let target_sample = samples.filter(x=>x.id==sample_id);
         console.log(target_sample)
         let sample_values = target_sample[0]['sample_values'];
@@ -40,10 +47,11 @@ function utobar(sample_id){
         Plotly.newPlot('bar', trace_data, layout)
     })}
 
-
+// function for bubboechart section
 function bubblechart(sample_id){
     d3.json(resource).then((data)=>{
         let samples = data['samples'];
+        // get the specific datas and update the plot when a new sample is selected 
         let target_sample = samples.filter(x=>x.id==sample_id);
         console.log(target_sample)
         let sample_values = target_sample[0]['sample_values'];
@@ -55,7 +63,7 @@ function bubblechart(sample_id){
         let trace = {"x":otu_ids, "y":sample_values, "type": 'scatter',
             "mode": 'markers', "text":otu_labels,
             "marker": {"color":otu_ids, colorscale: "Earth", "size":sample_values, 
-            sizeref: 2.0 * Math.max(...sample_values) / (desired_maximum_marker_size**2),
+            sizeref: 3.0 * Math.max(...sample_values) / (desired_maximum_marker_size**2),
             sizemode: 'area'}}
         let trace_data = [trace]
         let layout = {xaxis:{title:{text:"OTU ID"}}}
@@ -63,9 +71,11 @@ function bubblechart(sample_id){
     })
     }
 
+// function for displaying individual's demographic information 
 function metadata_info(sample_id){
     d3.json(resource).then((data)=>{
         let metadata = data['metadata']
+        // get the specific datas and update the plot when a new sample is selected 
         let target_metadata = metadata.filter((x=>x.id == sample_id))
         console.log(target_metadata)
         let metadata_value =  target_metadata[0]
@@ -80,12 +90,14 @@ function metadata_info(sample_id){
     }
 
 //onchange="optionChanged(this.value)"
+// call this fuction when a new sample is selected 
 function optionChanged(selectObject){
     console.log(selectObject);
     utobar(selectObject);
     bubblechart(selectObject)
     metadata_info(selectObject)
 };
+
 
 init()
 
