@@ -12,8 +12,7 @@ d3.json(resource).then(function(data) {
         menu.append('option').text(id).property("value", id)});
     });
 
-
-//display initial view 
+//// function for displaying initial view 
 function init(){
     d3.json(resource).then((data)=>{
     let names = data['names']
@@ -98,7 +97,7 @@ function optionChanged(selectObject){
     metadata_info(selectObject)
 };
 
-
+//display initial view 
 init()
 
 

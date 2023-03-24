@@ -1,4 +1,4 @@
-
+// create menu option
 let datas = d3.json(resource)
 datas.then(function(data) {
     let names = data['names'];
@@ -7,6 +7,7 @@ datas.then(function(data) {
     let sample = names[0]
     console.log(sample)});
 
+// function for displaying initial view 
 function init(){
     d3.json(resource).then((data)=>{
     let names = data['names']
@@ -14,9 +15,11 @@ function init(){
     console.log(init_id)
     gauge(init_id)})}
 
+// fuction for creating gauge chart
 function gauge(id){
     datas.then((data)=>{
         let meta=data['metadata']
+        // get the specific datas when a new sample is selected 
         let target_meta = meta.filter((id_value)=>id_value.id==id)
         console.log(target_meta)
         let meta_value = target_meta[0]
@@ -24,7 +27,7 @@ function gauge(id){
         let wfreq = meta_value['wfreq']
         console.log(wfreq)
     
-
+        // update the plot when a new sample is selected 
         let graph = {
             value: wfreq,
             domain: {x: [0,1], y: [0,1]},
@@ -64,9 +67,12 @@ function gauge(id){
     })}
 
     function optionChanged(selectObject){
-        gauge(selectObject)}
+        gauge(selectObject)
+        utobar(selectObject);
+        bubblechart(selectObject)
+        metadata_info(selectObject)}
         
- /// var dataGauge = [traceGauge]
 
+// display initial view
 init()
- /// Plotly.plot('gauge', dataGauge, gaugeLayout)
+
